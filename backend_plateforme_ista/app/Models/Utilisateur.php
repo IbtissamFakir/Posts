@@ -53,6 +53,12 @@ class Utilisateur extends Model
             ->withTimestamps();
     }
 
+    // A USER CAN PASS MANY EVALUATIONS (as a student)
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
 
     // q user can create many posts
     public function posts()
