@@ -10,12 +10,14 @@ class Utilisateur extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nom',
+        'nom_complet', 
         'email',
+        'password',
         'role',
-        'filiere_id',   // for students (direct link)
-        'groupe_id',    // for students (direct link)
-        // add other fields like password, etc.
+        'statut',
+        'CEF_matricule',
+        'photo',
+        'groupe_id',
     ];
 
     // 🔹 Students: each belongs to one groupe
