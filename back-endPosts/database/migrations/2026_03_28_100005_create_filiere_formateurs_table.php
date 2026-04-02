@@ -31,6 +31,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('filiere_formateurs');
+        Schema::dropIfExists('filiere_formateur');
     }
 };

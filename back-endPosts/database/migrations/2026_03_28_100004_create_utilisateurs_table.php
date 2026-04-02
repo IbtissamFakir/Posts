@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->string('role', 100);
             $table->string('statut', 100);
             $table->string('CEF_matricule', 100);
-            $table->string('statut', 100);
             $table->string('photo', 255)->nullable();
             $table->foreignId("groupe_id")
                 ->constrained("groupes")
