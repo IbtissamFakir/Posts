@@ -28,4 +28,9 @@ class Document extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function module()
+{
+    return $this->belongsTo(Module::class);
+}
 }
