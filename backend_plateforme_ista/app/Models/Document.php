@@ -14,6 +14,7 @@ class Document extends Model
         'description',
         'fichier_path',
         'type_document_id',
+        'module_id',
         'user_id',
     ];
 
