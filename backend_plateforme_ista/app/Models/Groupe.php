@@ -25,7 +25,7 @@ class Groupe extends Model
     // Many-to-many: group can have many formateurs
     public function formateurs()
     {
-        return $this->belongsToMany(Utilisateur::class, 'formateur_module_groupe', 'groupe_id', 'utilisateur_id')
+        return $this->belongsToMany(User::class, 'formateur_module_groupe', 'groupe_id', 'user_id')
             ->where('role', 'formateur')
             ->withTimestamps();
     }
@@ -33,6 +33,6 @@ class Groupe extends Model
     // One-to-many: group has many students
     public function stagiaires()
     {
-        return $this->hasMany(Utilisateur::class)->where('role', 'stagiaire');
+        return $this->hasMany(User::class)->where('role', 'stagiaire');
     }
 }

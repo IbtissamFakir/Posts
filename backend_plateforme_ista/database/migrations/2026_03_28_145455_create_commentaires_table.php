@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('likes')->unsigned()->default(0);
             $table->enum('status', ['visible', 'masque'])
                 ->default('visible');
-            $table->foreignId('utilisateur_id')
-                ->constrained('utilisateurs')
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
             $table->foreignId('post_id')
                 ->constrained('posts')

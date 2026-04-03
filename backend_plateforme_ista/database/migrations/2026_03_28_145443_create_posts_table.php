@@ -18,18 +18,18 @@ return new class extends Migration {
             $table->date('date_publication');
             $table->string('statut', 100);
             $table->integer('likes')->unsigned()->default(0);
-            $table->foreignId('utilisateur_id')
-                ->constrained('utilisateurs')
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
             $table->enum('status', ['pending', 'validated', 'rejected'])
                 ->default('pending');
             $table->foreignId('validated_by')
                 ->nullable()
-                ->constrained('utilisateurs')
+                ->constrained('users')
                 ->onDelete('set null');
             $table->foreignId('rejected_by')
                 ->nullable()
-                ->constrained('utilisateurs')
+                ->constrained('users')
                 ->onDelete('set null');
             $table->timestamps();
         });

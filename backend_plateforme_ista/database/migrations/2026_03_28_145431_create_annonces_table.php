@@ -24,8 +24,8 @@ return new class extends Migration
             $table->foreignId('secteur_id')
                 ->constrained('secteurs')
                 ->onDelete('cascade');
-            $table->foreignId('utilisateur_id')
-                ->constrained('utilisateurs')
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
             $table->timestamps();
         });

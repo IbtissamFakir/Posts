@@ -11,7 +11,7 @@ class FiliereFormateur extends Model
 
     protected $fillable = [
         'filiere_id',
-        'utilisateur_id',
+        'user_id',
     ];
 
     public function filiere()
@@ -21,7 +21,7 @@ class FiliereFormateur extends Model
 
     public function formateur()
     {
-        return $this->belongsTo(Utilisateur::class, 'utilisateur_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 

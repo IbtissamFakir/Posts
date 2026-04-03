@@ -14,12 +14,12 @@ class Annonce extends Model
         'description',
         'date_publication',
         'statut',
-        'utilisateur_id',
+        'user_id',
     ];
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
     public function secteur()
     {

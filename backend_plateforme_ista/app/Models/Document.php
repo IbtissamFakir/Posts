@@ -14,7 +14,7 @@ class Document extends Model
         'description',
         'fichier_path',
         'type_document_id',
-        'utilisateur_id',
+        'user_id',
     ];
 
     public function typeDocument()
@@ -22,8 +22,8 @@ class Document extends Model
         return $this->belongsTo(TypeDocument::class);
     }
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
 }

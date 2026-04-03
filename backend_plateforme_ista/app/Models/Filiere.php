@@ -38,7 +38,7 @@ class Filiere extends Model
     // Many-to-many: filiere can have many formateurs
     public function formateurs()
     {
-        return $this->belongsToMany(Utilisateur::class, 'filiere_formateur')
+        return $this->belongsToMany(User::class, 'filiere_formateur')
                     ->where('role', 'formateur')
                     ->withTimestamps();
     }

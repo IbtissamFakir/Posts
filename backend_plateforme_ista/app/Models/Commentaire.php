@@ -14,13 +14,13 @@ class Commentaire extends Model
         'date_publication',
         'likes',
         'status',
-        'utilisateur_id',
+        'user_id',
         'post_id',
     ];
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class );
+        return $this->belongsTo(User::class);
     }
 
     public function post()
