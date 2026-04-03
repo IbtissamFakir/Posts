@@ -13,6 +13,7 @@ class Document extends Model
         'title',
         'description',
         'fichier_path',
+        'statut',
         'type_document_id',
         'module_id',
         'user_id',
