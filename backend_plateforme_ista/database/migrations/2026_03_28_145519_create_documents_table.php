@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('titre', 255);
             $table->text('description')->nullable();
             $table->string('fichier_path', 255);
-            $table->string('status', 50) ;
+            $table->string('statut', 50) ;
             $table->foreignId('type_document_id')
                 ->constrained('type_documents')
                 ->onDelete('cascade');
