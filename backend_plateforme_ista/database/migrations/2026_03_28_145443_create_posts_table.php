@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->text('content');
             $table->date('date_publication');
             $table->string('statut', 100);
-            $table->integer('likes')->unsigned()->default(0);
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');

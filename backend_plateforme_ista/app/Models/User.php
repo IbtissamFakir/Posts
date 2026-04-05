@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -59,12 +61,12 @@ class User extends Authenticatable
         return $this->belongsTo(Filiere::class);
     }
 
-    // 🔹 Formateurs: many-to-many with filieres via pivot
-    public function filieres()
-    {
-        return $this->belongsToMany(Filiere::class, 'filiere_formateur')
-            ->withTimestamps();
-    }
+    // // 🔹 Formateurs: many-to-many with filieres via pivot
+    // public function filieres()
+    // {
+    //     return $this->belongsToMany(Filiere::class, 'filiere_formateur')
+    //         ->withTimestamps();
+    // }
 
     // 🔹 Formateurs: many-to-many with groupes via pivot
     public function groupes()

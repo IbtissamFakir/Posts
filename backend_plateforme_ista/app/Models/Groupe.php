@@ -11,7 +11,7 @@ class Groupe extends Model
 
     protected $fillable = [
         'nom',
-        'niveau',
+        'annee',
         'effectif',
         'filiere_id',
     ];
