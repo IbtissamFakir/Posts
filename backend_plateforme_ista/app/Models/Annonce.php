@@ -15,6 +15,7 @@ class Annonce extends Model
         'date_publication',
         'statut',
         'user_id',
+        'secteur_id'
     ];
 
     public function user()

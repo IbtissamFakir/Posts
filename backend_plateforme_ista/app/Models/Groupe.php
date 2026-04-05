@@ -20,7 +20,7 @@ class Groupe extends Model
     public function filiere()
     {
         return $this->belongsTo(Filiere::class);
-    }
+    } 
 
     // Many-to-many: group can have many formateurs
     public function formateurs()

@@ -49,4 +49,9 @@ class Post extends Model
         return $this->hasMany(Enregistrement::class);
     }
 
+    //  A post can have many like
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

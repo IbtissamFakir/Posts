@@ -95,6 +95,12 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    //a user can like many posts
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
     // a user can validate many posts (if they are an admin)
     public function validatedPosts()
     {
