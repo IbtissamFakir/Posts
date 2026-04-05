@@ -25,7 +25,7 @@ return new class extends Migration {
                 ->constrained('modules')
                 ->onDelete('cascade');
             $table->foreignId('filiere_id')
-                ->constrained('filiere')
+                ->constrained('filieres')
                 ->onDelete('cascade');
             $table->foreignId('user_id')
                 ->constrained('users')
