@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\PostController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 //afficher les posts
 Route::get('/posts', [PostController::class, 'index']);
 //creer un post et validation

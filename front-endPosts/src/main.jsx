@@ -1,3 +1,9 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-createRoot(document.getElementById("root")).render();
+import NavBar from "./NavBar";
+import { BrowserRouter } from "react-router-dom";
+createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <NavBar />
+  </BrowserRouter>,
+);
