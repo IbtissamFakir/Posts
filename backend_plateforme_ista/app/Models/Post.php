@@ -12,8 +12,9 @@ class Post extends Model
     protected $fillable = [
         'content',
         'date_publication',
+        'image_path',
+        'file_path',
         'statut',
-        'likes',
         'user_id',
     ];
 

@@ -24,6 +24,9 @@ return new class extends Migration {
                 ->constrained('groupes')
                 ->onDelete('cascade');
             $table->timestamps();
+
+            // Assurer l'unicité de la combinaison user_id, module_id et groupe_id
+            $table->unique(['user_id', 'module_id', 'groupe_id']);
         });
     }
 

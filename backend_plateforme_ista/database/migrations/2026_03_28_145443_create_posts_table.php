@@ -16,12 +16,13 @@ return new class extends Migration {
             $table->id();
             $table->text('content');
             $table->date('date_publication');
-            $table->string('statut', 100);
+            $table->string('image_path')->nullable();
+            $table->string('file_path')->nullable();
+            $table->enum('statut', ['pending', 'validated', 'rejected'])
+                ->default('pending');
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');
-            $table->enum('status', ['pending', 'validated', 'rejected'])
-                ->default('pending');
             $table->foreignId('validated_by')
                 ->nullable()
                 ->constrained('users')

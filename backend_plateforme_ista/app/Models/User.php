@@ -27,6 +27,7 @@ class User extends Authenticatable
         'statut',
         'CEF_matricule',
         'photo',
+        'bio',
         'groupe_id',
     ];
 
