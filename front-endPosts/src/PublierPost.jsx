@@ -46,8 +46,9 @@ function PublierPost() {
     formData.append("content", champs.content);
 
     // --- AJOUT TEMPORAIRE POUR LE TEST DU GROUPE ---
-    // On met l'ID 1 (ou un ID qui existe dans votre base de données)
-    formData.append("utilisateur_id", 2);
+    // On met l'ID 1 (ou un ID qui existe
+    //  dans votre base de données)
+    formData.append("utilisateur_id", 1);
 
     champs.image.forEach((img) => formData.append("images[]", img));
     champs.files.forEach((file) => formData.append("attachments[]", file));
