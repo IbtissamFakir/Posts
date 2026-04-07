@@ -10,7 +10,7 @@ class Annonce extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'titre',
         'description',
         'date_publication',
         'statut',

@@ -14,10 +14,11 @@ return new class extends Migration {
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->text('titre');
             $table->text('content');
             $table->date('date_publication');
-            $table->string('image_path')->nullable();
-            $table->string('file_path')->nullable();
+            $table->json('images')->nullable();
+            $table->json('fichiers')->nullable();
             $table->enum('statut', ['pending', 'validated', 'rejected'])
                 ->default('pending');
             $table->foreignId('user_id')

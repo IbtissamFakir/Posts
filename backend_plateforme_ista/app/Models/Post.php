@@ -10,14 +10,22 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
+        'titre',
         'content',
         'date_publication',
-        'image_path',
-        'file_path',
+        'images',
+        'fichiers',
         'statut',
         'user_id',
+        'validated_by',
+        'rejected_by',
     ];
 
+    protected $casts = [
+        'images' => 'array',
+        'fichiers' => 'array',
+        'date_publication' => 'datetime',
+    ];
     // 🔹 Each post belongs to one user (author)
     public function user()
     {

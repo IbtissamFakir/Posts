@@ -25,6 +25,7 @@ return new class extends Migration
                 ->constrained('filieres')
                 ->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['nom', 'filiere_id']);
         });
     }
 

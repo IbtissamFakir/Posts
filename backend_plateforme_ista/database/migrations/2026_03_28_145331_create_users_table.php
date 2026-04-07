@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -23,9 +22,10 @@ return new class extends Migration
             $table->string('CEF_matricule', 100);
             $table->string('bio', 255)->nullable();
             $table->string('photo', 255)->nullable();
-            $table->foreignId("groupe_id")
+            $table->foreignId('groupe_id')
+                ->nullable()
                 ->constrained("groupes")
-                ->onDelete("cascade");
+                ->onDelete("set null");
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
