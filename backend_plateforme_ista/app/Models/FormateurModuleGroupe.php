@@ -10,7 +10,7 @@ class FormateurModuleGroupe extends Model
     use HasFactory;
 
     protected $fillable = [
-        'formateur_id',
+        'user_id',
         'module_id',
         'groupe_id',
     ];

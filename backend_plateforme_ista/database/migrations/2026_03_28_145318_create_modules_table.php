@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,10 +12,11 @@ return new class extends Migration
      */
     public function up()
     {
+
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 255)->unique();
-            $table->string('code', 50)->unique();
+            $table->string('nom', 255);
+            $table->string('code', 50);
             $table->integer('nbrCC')->unsigned();
             $table->integer('coeficient')->unsigned();
             $table->integer('masse_horaire')->unsigned();
@@ -25,7 +25,9 @@ return new class extends Migration
                 ->constrained('filieres')
                 ->onDelete('cascade');
             $table->timestamps();
-            $table->unique(['nom', 'filiere_id']);
+
+            $table->unique(["nom", "filiere_id"]); // nom unique par filière
+            $table->unique(["code", "filiere_id"]); // code unique par filière
         });
     }
 
