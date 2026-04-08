@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'nom_complet', 
+        'nom_complet',
         'email',
         'password',
         'role',
@@ -84,6 +84,13 @@ class User extends Authenticatable
             ->withPivot('groupe_id')
             ->withTimestamps();
     }
+
+    // 🔹 Formateurs: relation to pivot table for easier access
+    public function formateurModuleGroupes()
+    {
+        return $this->hasMany(FormateurModuleGroupe::class, 'user_id');
+    }
+
 
     // A USER CAN PASS MANY EVALUATIONS (as a student)
     public function evaluations()

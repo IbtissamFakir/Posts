@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('titre', 250);
             $table->text('description');
+            $table->string('lien')->nullable();
             $table->date('date_publication');
             $table->string('type', 20);
             $table->string('categorie', 20);

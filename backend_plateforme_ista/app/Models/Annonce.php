@@ -12,6 +12,7 @@ class Annonce extends Model
     protected $fillable = [
         'titre',
         'description',
+        'lien',
         'date_publication',
         'statut',
         'user_id',
