@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -18,14 +17,18 @@ return new class extends Migration
             $table->string('titre', 255);
             $table->text('description')->nullable();
             $table->string('fichier_path', 255);
+            $table->string('statut', 50) ;
             $table->foreignId('type_document_id')
                 ->constrained('type_documents')
                 ->onDelete('cascade');
             $table->foreignId('module_id')
                 ->constrained('modules')
                 ->onDelete('cascade');
-            $table->foreignId('utilisateur_id')
-                ->constrained('utilisateurs')
+            $table->foreignId('filiere_id')
+                ->constrained('filieres')
+                ->onDelete('cascade');
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
             $table->timestamps();
         });

@@ -28,7 +28,7 @@ class Module extends Model
     // 🔹 Many-to-many: module can be taught by many formateurs
     public function formateurs()
     {
-        return $this->belongsToMany(Utilisateur::class, 'formateur_module_groupe', 'module_id', 'utilisateur_id')
+        return $this->belongsToMany(User::class, 'formateur_module_groupe', 'module_id', 'user_id')
             ->where('role', 'formateur')
             ->withPivot('groupe_id')
             ->withTimestamps();
@@ -38,7 +38,7 @@ class Module extends Model
     public function groupes()
     {
         return $this->belongsToMany(Groupe::class, 'formateur_module_groupe', 'module_id', 'groupe_id')
-            ->withPivot('utilisateur_id')
+            ->withPivot('user_id')
             ->withTimestamps();
     }
 

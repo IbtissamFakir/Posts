@@ -10,14 +10,14 @@ class FormateurModuleGroupe extends Model
     use HasFactory;
 
     protected $fillable = [
-        'formateur_id',
+        'user_id',
         'module_id',
         'groupe_id',
     ];
 
     public function formateur()
     {
-        return $this->belongsTo(Utilisateur::class, 'utilisateur_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function module()

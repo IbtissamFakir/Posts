@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { LogOut, Image as ImageIcon, Paperclip, Send } from "lucide-react";
 
 function PublierPost() {
@@ -56,7 +56,7 @@ function PublierPost() {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/posts", {
         method: "POST",
-        // On commente les headers car le Token n'est pas encore prêt
+        // On commente le headers car le Token n'est pas encore prêt
         // headers: {
         //   Authorization: `Bearer ${token}`,
         //   Accept: "application/json",
@@ -75,7 +75,7 @@ function PublierPost() {
         alert(
           "Erreur : " +
             (errorData.message ||
-              "Vérifiez que l'utilisateur ID 2 existe en BDD"),
+              "Vérifiez que l'utilisateur ID 1 existe en BDD"),
         );
       }
     } catch (error) {

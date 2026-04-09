@@ -24,7 +24,7 @@ class PostController extends Controller
             'titre' => 'required|max:255',
             'content' => 'required',
             'utilisateur_id' => 'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'max:2048',
             'attachments.*' => 'file|max:10000',
         ]);
 

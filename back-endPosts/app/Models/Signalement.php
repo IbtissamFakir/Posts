@@ -12,7 +12,7 @@ class Signalement extends Model
     protected $fillable = [
         'description',
         'commentaire_id',
-        'utilisateur_id',
+        'user_id',
     ];
 
     // 🔹 Each signalement belongs to one commentaire
@@ -22,8 +22,8 @@ class Signalement extends Model
     }
 
     // 🔹 Each signalement is made by one utilisateur (the one who reported it)
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
 }

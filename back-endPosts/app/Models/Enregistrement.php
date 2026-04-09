@@ -11,12 +11,12 @@ class Enregistrement extends Model
 
     protected $fillable = [
         'post_id',
-        'utilisateur_id',
+        'user_id',
     ];
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
 
     public function post()

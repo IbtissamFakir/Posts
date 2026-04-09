@@ -10,15 +10,14 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('filieres', function (Blueprint $table) {
+    public function up(){
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 255)->unique();
-            $table->string('niveau', 100);
-            $table->string('code', 50)->unique();
-            $table->foreignId('secteur_id')
-                ->constrained('secteurs')
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+            $table->foreignId('post_id')
+                ->constrained('posts')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('filieres');
+        Schema::dropIfExists('likes');
     }
 };
