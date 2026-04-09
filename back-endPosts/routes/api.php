@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\EnregistrementController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +29,10 @@ Route::get('/posts', [PostController::class, 'index']);
 Route::post('/posts', [\App\Http\Controllers\Api\PostController::class, 'store']);
 //supprimer un post
 Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+//  Likes
+Route::post('/posts/{post}/like', [LikeController::class, 'like']);
+Route::delete('/posts/{post}/unlike', [LikeController::class, 'unlike']);
+
+// Enregistrements
+Route::post('/posts/{post}/save', [EnregistrementController::class, 'save']);
+Route::delete('/posts/{post}/unsave', [EnregistrementController::class, 'unsave']);

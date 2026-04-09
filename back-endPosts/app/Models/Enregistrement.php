@@ -11,6 +11,7 @@ class Enregistrement extends Model
 
     protected $fillable = [
         'post_id',
+        'annonce_id',
         'user_id',
     ];
 
@@ -28,6 +29,4 @@ class Enregistrement extends Model
     {
         return $this->belongsTo(Annonce::class);
     }
-
-
 }
