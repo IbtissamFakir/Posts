@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->text('titre');
             $table->text('content');
-            $table->date('date_publication');
+            $table->datetime('date_publication');
             $table->json('images')->nullable();
             $table->json('fichiers')->nullable();
             $table->enum('statut', ['pending', 'validated', 'rejected'])

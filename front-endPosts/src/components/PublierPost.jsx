@@ -85,7 +85,6 @@ function PublierPost() {
 
   return (
     <div className="flex p-6 gap-6 bg-gray-50 min-h-screen font-sans">
-      {/* Sidebar Profil */}
       <aside className="bg-white h-fit text-gray-800 w-80 rounded-2xl p-6 flex flex-col shadow-lg border border-gray-200">
         <div className="flex flex-col items-center gap-4">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold shadow-inner">
@@ -106,7 +105,6 @@ function PublierPost() {
         </button>
       </aside>
 
-      {/*Zones de texte */}
       <div className="flex-1 flex justify-start items-start">
         <form
           onSubmit={handleSubmit}

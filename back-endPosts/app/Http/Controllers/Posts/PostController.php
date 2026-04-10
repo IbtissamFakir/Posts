@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Posts;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
@@ -11,10 +11,19 @@ class PostController extends Controller
 {
     public function index()
     {
+        $userId = 1;
         $posts = Post::where('statut', 'validated')
             ->with('user')
+            ->withCount('likes')
+            ->withExists(['likes as liked' => function($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
+            ->withExists(['enregistrements as is_saved' => function($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
             ->latest()
             ->get();
+
         return response()->json($posts);
     }
 
@@ -24,7 +33,7 @@ class PostController extends Controller
             'titre' => 'required|max:255',
             'content' => 'required',
             'user_id' => 'required',
-            'images.*' => 'max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'attachments.*' => 'file|max:10000',
         ]);
 
@@ -48,7 +57,7 @@ class PostController extends Controller
             'images' => $imagePaths,
             'fichiers' => $filePaths,
             'statut' => 'pending',
-            'user_id' => $request->user_id,
+            'user_id' => $request->user_id, // Corrigé : utilisateur_id -> user_id
             'date_publication' => now(),
         ]);
 
@@ -84,7 +93,7 @@ class PostController extends Controller
     }
 }
 
-/* On retire user_id de la validation (car l'utilisateur ne doit
+/*On retire utilisateur_id de la validation (car l'utilisateur ne doit
  plus l'envoyer manuellement) et on utilise auth()->id() pour le récupérer automatiquement depuis le badge (Token).*/
 //namespace App\Http\Controllers\Api;
 //
@@ -98,7 +107,7 @@ class PostController extends Controller
 //    public function index()
 //    {
 //        $posts = Post::where('statut', 'validated')
-//            ->with('user') // Changé ici aussi
+//            ->with('utilisateur') // Corrigé : 'users' (collection) -> 'utilisateur' (relation simple)
 //            ->latest()
 //            ->get();
 //        return response()->json($posts);
@@ -110,7 +119,7 @@ class PostController extends Controller
 //        $request->validate([
 //            'titre' => 'required|max:255',
 //            'content' => 'required',
-//            'images.*' => 'image|max:2048',
+//            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
 //            'attachments.*' => 'file|max:10000',
 //        ]);
 //
@@ -135,7 +144,7 @@ class PostController extends Controller
 //            'images' => $imagePaths,
 //            'fichiers' => $filePaths,
 //            'statut' => 'pending',
-//            'user_id' => auth()->id(),
+//            'user_id' => auth()->id(), // Corrigé : utilisateur_id -> user_id
 //            'date_publication' => now(),
 //        ]);
 //
@@ -150,7 +159,7 @@ class PostController extends Controller
 //        $post = Post::findOrFail($id);
 //
 //        // 3. Sécurité : Seul l'auteur peut supprimer son post
-//        if ($post->user_id != auth()->id()) {
+//        if ($post->user_id != auth()->id()) { // Corrigé : utilisateur_id -> user_id
 //            return response()->json(['message' => 'Action interdite : vous n\'êtes pas l\'auteur !'], 403);
 //        }
 //
