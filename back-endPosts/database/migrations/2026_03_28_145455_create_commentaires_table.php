@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('commentaires', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->date('date_publication');
+            $table->datetime('date_publication');
             $table->integer('likes')->unsigned()->default(0);
             $table->enum('status', ['visible', 'masque'])
                 ->default('visible');

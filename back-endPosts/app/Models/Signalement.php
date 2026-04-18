@@ -15,13 +15,17 @@ class Signalement extends Model
         'user_id',
     ];
 
-    // 🔹 Each signalement belongs to one commentaire
+    /**
+     * Relation avec le commentaire signalé
+     */
     public function commentaire()
     {
         return $this->belongsTo(Commentaire::class);
     }
 
-    // 🔹 Each signalement is made by one utilisateur (the one who reported it)
+    /**
+     * Relation avec l'utilisateur qui a signalé
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

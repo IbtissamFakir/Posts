@@ -23,6 +23,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->onDelete('cascade');
             $table->timestamps();
+
+            // Empêcher qu'un utilisateur signale plusieurs fois le même commentaire
+            $table->unique(['commentaire_id', 'user_id']);
         });
     }
 
