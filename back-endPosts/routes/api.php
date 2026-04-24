@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentaireController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,9 @@ Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 Route::post('/posts/{post}/like', [LikeController::class, 'toggle']);
 Route::post('/posts/{id}/save', [EnregistrementController::class, 'save']);
 Route::delete('/posts/{id}/unsave', [EnregistrementController::class, 'unsave']);
+
+
+Route::get('/posts/{postId}/commentaires',[CommentaireController::class,'index']);
+Route::post('/posts/{postId}/commentaires',[CommentaireController::class,'store']);
+Route::get('/posts/{postId}/commentaires/{id}', [CommentaireController::class, 'show']);
+Route::put('/posts/{postId}/commentaires/{id}', [CommentaireController::class, 'update']);
