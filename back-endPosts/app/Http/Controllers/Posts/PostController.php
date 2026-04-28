@@ -21,6 +21,9 @@ class PostController extends Controller
             ->withExists(['enregistrements as is_saved' => function($query) use ($userId) {
                 $query->where('user_id', $userId);
             }])
+            ->withExists(['commentaires as has_comment' => function($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
             ->latest()
             ->get();
 
