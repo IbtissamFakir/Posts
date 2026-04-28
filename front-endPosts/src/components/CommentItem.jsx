@@ -8,15 +8,10 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
 
   const [showSignal, setShowSignal] = useState(false);
   const [description, setDescription] = useState("");
- //vrai user 
- //const currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
-
-
- //pour tester 
+  
   const currentUserId = 1;
   const isOwner = Number(currentUserId) === Number(data.user_id);
-  console.log("USER LOCAL:", currentUserId);
-  console.log("COMMENT USER:", data.user_id);
+
   // 🔹 INITIALS AVATAR (STYLE PRO)
   function getInitials(name = "") {
     return (
@@ -60,7 +55,7 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
   // DELETE
   const handleDelete = () => {
     toast.custom((t) => (
-      <div className="bg-white shadow-xl rounded-xl p-4 w-[300px] border">
+      <div className="bg-white shadow-xl rounded-xl p-4 w-[300px] border border-gray-200">
         <p className="text-sm font-medium text-gray-800">
           Supprimer ce commentaire ?
         </p>
@@ -68,7 +63,7 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
         <div className="flex justify-end gap-2 mt-3">
           <button
             onClick={() => toast.dismiss(t.id)}
-            className="px-3 py-1 text-sm rounded-md bg-gray-100"
+            className="px-3 py-1 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
           >
             Annuler
           </button>
@@ -79,7 +74,7 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
               toast.dismiss(t.id);
               toast.success("Commentaire supprimé");
             }}
-            className="px-3 py-1 text-sm rounded-md bg-red-600 text-white"
+            className="px-3 py-1 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
           >
             Supprimer
           </button>
@@ -101,7 +96,7 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
   };
 
   return (
-    <div className="p-5 border-b border-gray-100 hover:bg-gray-50 transition">
+    <div className="p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
 
       {/* HEADER */}
       <div className="flex gap-3">
@@ -110,11 +105,11 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
         {data.user?.photo ? (
           <img
             src={`http://127.0.0.1:8000/storage/posts/images/${data.user.photo}`}
-            className="w-10 h-10 rounded-full object-cover border"
+            className="w-9 h-9 rounded-full object-cover border-2 border-gray-100"
             alt="avatar"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
             {getInitials(data.user?.nom_complet)}
           </div>
         )}
@@ -123,25 +118,25 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
         <div className="flex-1">
 
           {/* NAME + DATE */}
-          <div>
+          <div className="flex items-center gap-2">
             <h4 className="font-semibold text-sm text-gray-900">
               {data.user?.nom_complet || "Utilisateur"}
             </h4>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-gray-500">
               {formatDate(data.created_at)}
             </p>
           </div>
 
           {/* TEXT OR EDIT */}
           {!isEditing ? (
-            <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap">
+            <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap leading-relaxed">
               {data.content}
             </p>
           ) : (
             <textarea
               value={tempContent}
               onChange={(e) => setTempContent(e.target.value)}
-              className="w-full border p-2 text-sm rounded-md mt-2"
+              className="w-full border border-gray-300 p-2 text-sm rounded-lg mt-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none"
             />
           )}
 
@@ -160,17 +155,17 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
 
       {/* EDIT BUTTONS */}
       {isEditing && (
-        <div className="flex justify-end gap-2 mt-2">
+        <div className="flex justify-end gap-2 mt-3 pl-12">
           <button
             onClick={() => setIsEditing(false)}
-            className="text-gray-500 text-sm"
+            className="text-gray-600 text-sm hover:text-gray-800 font-medium"
           >
             Annuler
           </button>
 
           <button
             onClick={handleSave}
-            className="bg-black text-white px-3 py-1 rounded-md text-sm"
+            className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700 font-medium transition-colors"
           >
             Enregistrer
           </button>
@@ -179,33 +174,34 @@ function CommentItem({ data, onDelete, onUpdate, onSignal }) {
 
       {/* SIGNAL MODAL */}
       {showSignal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
 
-          <div className="bg-white p-5 rounded-xl w-[350px]">
+          <div className="bg-white p-6 rounded-xl w-full max-w-sm shadow-2xl border border-gray-200">
 
-            <h2 className="font-bold mb-2">Signaler commentaire</h2>
+            <h2 className="font-bold mb-3 text-gray-900 text-lg">Signaler ce commentaire</h2>
 
             <textarea
-              className="w-full border p-2 text-sm rounded"
-              placeholder="Pourquoi signalez-vous ce commentaire ?"
+              className="w-full border border-gray-300 p-3 text-sm rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none"
+              placeholder="Expliquez pourquoi vous signalez ce commentaire..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              rows={4}
             />
 
-            <div className="flex justify-end gap-2 mt-3">
+            <div className="flex justify-end gap-2 mt-4">
 
               <button
                 onClick={() => setShowSignal(false)}
-                className="px-3 py-1 text-gray-600"
+                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
               >
                 Annuler
               </button>
 
               <button
                 onClick={sendSignal}
-                className="bg-red-600 text-white px-3 py-1 rounded"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors"
               >
-                Envoyer
+                Signaler
               </button>
 
             </div>

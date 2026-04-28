@@ -11,6 +11,8 @@ import BookmarkSolid from "@heroicons/react/24/solid/BookmarkIcon";
 import { FileText, FileSpreadsheet, File, FileCode } from "lucide-react";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
+import ImageCarousel from "./ImageCarousel";
+
 function PostCard({ post }) {
   function formatDate(date) {
     const diff = Date.now() - new Date(date);
@@ -46,6 +48,7 @@ function PostCard({ post }) {
   const [liked, setLiked] = useState(post.liked ?? false);
   const [isSaved, setIsSaved] = useState(Boolean(post.is_saved));
   const [showComments, setShowComments] = useState(false);
+  
   // Liker un Post
   function handleLiker() {
     axios
@@ -56,6 +59,7 @@ function PostCard({ post }) {
       })
       .catch((err) => console.error(err));
   }
+  
   // Enregistrer un Post
   function handleEnregistrer() {
     if (isSaved) {
@@ -86,23 +90,25 @@ function PostCard({ post }) {
         });
     }
   }
+  
   return (
-    <div className="max-w-2xl w-full mx-auto bg-white rounded-2xl shadow-sm p-6 border border-gray-200 mb-8">
+    <div className="w-full bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow duration-200">
+      {/* En-tête avec profil */}
       <section className="flex items-center mb-4">
         {post.user?.photo ? (
           <img
             src={`http://127.0.0.1:8000/storage/posts/images/${post.user.photo}`}
             alt="profile"
-            className="w-12 h-12 rounded-full object-cover border border-gray-100"
+            className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
           />
         ) : (
-          <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
             {getInitials(post.user?.nom_complet)}
           </div>
         )}
 
         <div className="flex-1 ml-4">
-          <h3 className="text-lg font-bold text-gray-900 leading-tight">
+          <h3 className="text-sm font-semibold text-gray-900 leading-tight">
             {post.user?.nom_complet || "Utilisateur inconnu"}
           </h3>
           <p className="text-gray-500 text-xs">
@@ -111,27 +117,25 @@ function PostCard({ post }) {
         </div>
       </section>
 
+      {/* Contenu du post */}
       <div className="mb-4">
-        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+        <h3 className="text-lg font-bold text-gray-900 mb-2">
           {post.titre}
         </h3>
-        <p className="text-gray-700 leading-relaxed mb-4">{post.content}</p>
-        <div className="grid grid-cols-1 gap-2 mb-4">
-          {post.images?.map((img, index) => (
-            <img
-              key={index}
-              src={`http://127.0.0.1:8000/storage/${img}`}
-              alt="post"
-              className="w-full rounded-xl object-cover max-h-96"
-            />
-          ))}
-        </div>
-        <div className="mb-4 space-y-2 ">
+        <p className="text-gray-700 leading-relaxed mb-4 text-sm">
+          {post.content}
+        </p>
+        
+        {/* Carrousel d'images */}
+        <ImageCarousel images={post.images} />
+        
+        {/* Fichiers */}
+        <div className="mb-4 space-y-2">
           {post.fichiers?.map((file, index) => {
             const ext = file.split(".").pop().toLowerCase();
             const fileName = file.split("/").pop();
 
-            let icon = <File className="w-5 h-5 text-gray-500 " />;
+            let icon = <File className="w-5 h-5 text-gray-500" />;
 
             if (ext === "pdf") {
               icon = <FileText className="w-5 h-5 text-red-500" />;
@@ -149,65 +153,78 @@ function PostCard({ post }) {
                 href={`http://127.0.0.1:8000/storage/${file}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center space-x-2 text-gray-800  bg-gray-50 hover:bg-gray-100 border border-gray-200 p-3 rounded-lg transition-colors group"
+                className="flex items-center space-x-3 text-gray-800 bg-gray-50 hover:bg-gray-100 border border-gray-200 p-3 rounded-lg transition-colors group"
               >
                 {icon}
-                <span>{fileName}</span>
+                <span className="text-sm font-medium">{fileName}</span>
               </a>
             );
           })}
         </div>
-        <div className="flex items-center text-sm text-gray-500 mb-2">
-          <HeartSolid className="w-4 h-4 mr-1 text-red-500" />
-          <span>{count}</span>
-        </div>
+        
+        {/* Compteur de likes */}
+        {count > 0 && (
+          <div className="flex items-center text-sm text-gray-600 mb-3 pb-3 border-b border-gray-100">
+            <HeartSolid className="w-4 h-4 mr-2 text-red-500" />
+            <span className="font-medium">{count} personne{count > 1 ? "s" : ""}</span>
+          </div>
+        )}
       </div>
 
-      <hr className="border-gray-100" />
-
-      <div className="flex items-center justify-around mt-3">
+      {/* Boutons d'action */}
+      <div className="flex items-center justify-around">
         <button
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${liked ? "text-red-500 hover:bg-red-50 " : "text-gray-600 hover:bg-gray-100 "}`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors flex-1 justify-center font-medium text-sm ${
+            liked 
+              ? "text-red-500 bg-red-50 hover:bg-red-100" 
+              : "text-gray-600 hover:bg-gray-100"
+          }`}
           onClick={handleLiker}
         >
           {liked ? (
-            <HeartSolid className="w-6 h-6" />
+            <HeartSolid className="w-5 h-5" />
           ) : (
-            <HeartIcon className="w-6 h-6" />
+            <HeartIcon className="w-5 h-5" />
           )}
-          <span className="font-medium text-sm">J'aime</span>
+          <span>J'aime</span>
         </button>
 
         <button
-          onClick={() => setShowComments(!showComments)} // Alterne entre affiché et caché
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${showComments ? "text-blue-600 bg-blue-50" : "text-gray-600 hover:bg-gray-100"}`}
+          onClick={() => setShowComments(!showComments)}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors flex-1 justify-center font-medium text-sm ${
+            showComments
+              ? "text-blue-600 bg-blue-50 hover:bg-blue-100"
+              : "text-gray-600 hover:bg-gray-100"
+          }`}
         >
-          <ChatBubbleLeftIcon className="w-6 h-6" />
-          <span className="font-medium text-sm">Commenter</span>
+          <ChatBubbleLeftIcon className="w-5 h-5" />
+          <span>Commenter</span>
         </button>
 
         <button
           onClick={handleEnregistrer}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${isSaved ? "text-blue-600 hover:bg-blue-50" : "text-gray-600 hover:bg-gray-100"}`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors flex-1 justify-center font-medium text-sm ${
+            isSaved
+              ? "text-blue-600 bg-blue-50 hover:bg-blue-100"
+              : "text-gray-600 hover:bg-gray-100"
+          }`}
         >
           {isSaved ? (
-            <BookmarkSolid className="w-6 h-6" />
+            <BookmarkSolid className="w-5 h-5" />
           ) : (
-            <BookmarkIcon className="w-6 h-6" />
+            <BookmarkIcon className="w-5 h-5" />
           )}
-          <span className="font-medium text-sm">
-            {isSaved ? "Enregistré" : "Enregistrer"}
-          </span>
+          <span>{isSaved ? "Enregistré" : "Enregistrer"}</span>
         </button>
       </div>
+      
+      {/* Section commentaires */}
       {showComments && (
-        <div className="mt-4 animate-in fade-in duration-300">
-          <hr className="border-gray-100 mb-4" />
+        <div className="mt-4 pt-4 border-t border-gray-200 animate-in fade-in duration-300">
           <CommentForm
             postId={post.id}
             refreshComments={() => window.location.reload()}
           />
-
           <CommentList postId={post.id} />
         </div>
       )}

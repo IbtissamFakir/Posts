@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Send } from "lucide-react";
 
 function CommentForm({ postId, refreshComments }) {
     const [content, setContent] = useState("");
@@ -36,22 +37,26 @@ function CommentForm({ postId, refreshComments }) {
     return (
         <form
             onSubmit={handleSubmit}
-            className="flex gap-3 mt-4"
+            className="flex gap-3 mt-4 mb-4"
         >
             <input
                 type="text"
-                placeholder="Écrire un commentaire..."
+                placeholder="Ajouter un commentaire..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 bg-white hover:border-gray-400 transition-colors placeholder-gray-400"
             />
 
             <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 text-white px-5 py-3 rounded-xl text-sm font-medium hover:bg-blue-700 transition"
+                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:shadow-md hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50"
             >
-                {loading ? "..." : "Envoyer"}
+                {loading ? (
+                    <span>...</span>
+                ) : (
+                    <Send size={18} />
+                )}
             </button>
         </form>
     );

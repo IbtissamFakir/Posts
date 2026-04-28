@@ -88,38 +88,26 @@ function CommentList({ postId }) {
             toast.error(error.response?.data?.message || "Erreur signalement");
         }
     };
-    return (
-        <div className="mt-4 bg-white rounded-2xl border border-gray-200 shadow-sm">
-            <div className="p-5 border-b">
-                <h3 className="font-bold text-gray-800">
-                    Commentaires ({comments.length})
-                </h3>
-            </div>
+       return (
+        <div className="mt-2 space-y-1">
+            {comments.length > 0 && (
+                <div className="px-4 pt-2">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        Commentaires
+                    </span>
+                </div>
+            )}
 
             {loading ? (
-                <div className="p-5 text-gray-500 text-sm">
-                    Chargement...
-                </div>
-            ) : comments.length === 0 ? (
-                <div className="p-5 text-gray-500 text-sm">
-                    Aucun commentaire pour le moment
-                </div>
+                <div className="p-5 text-center text-slate-400 text-xs">Chargement...</div>
             ) : (
-                <div>
+                <div className="divide-y divide-slate-50">
                     {comments.map((comment) => (
-                        <CommentItem
-                            key={comment.id}
-                            data={comment}
-                            onDelete={handleDelete}
-                            onUpdate={handleUpdate}
-                            onSignal={handleSignal}
-                        />
-
+                        <CommentItem key={comment.id} data={comment} onDelete={handleDelete} onUpdate={handleUpdate} onSignal={handleSignal} />
                     ))}
                 </div>
             )}
         </div>
     );
 }
-
 export default CommentList;

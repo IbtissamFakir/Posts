@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { LogOut, Image as ImageIcon, Paperclip, Send } from "lucide-react";
+import { Image as ImageIcon, Paperclip, Send, X, Plus } from "lucide-react";
 
 function PublierPost() {
   const [champs, setChamps] = useState({
@@ -12,13 +12,11 @@ function PublierPost() {
   const imageInputRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Gérer les zones de texte
   function handleChange(e) {
     const { name, value } = e.target;
     setChamps((prev) => ({ ...prev, [name]: value }));
   }
 
-  // l'ajout de fichiers/images (Multiples)
   function handleFileChange(e) {
     const { name, files } = e.target;
     setChamps((prev) => ({
@@ -27,7 +25,6 @@ function PublierPost() {
     }));
   }
 
-  // Supprimer un fichier sélectionné avant l'envoi (Optionnel mais recommandé)
   function removeFile(type, index) {
     setChamps((prev) => ({
       ...prev,
@@ -37,46 +34,23 @@ function PublierPost() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    // On laisse ça commenté pour le moment (en attendant la page Login)
-    // const token = localStorage.getItem("token");
-
     const formData = new FormData();
     formData.append("titre", champs.titre);
     formData.append("content", champs.content);
-
-    // --- AJOUT TEMPORAIRE POUR LE TEST DU GROUPE ---
-    // On met l'ID 1 (ou un ID qui existe
-    //  dans votre base de données)
     formData.append("user_id", 1);
-
     champs.image.forEach((img) => formData.append("images[]", img));
     champs.files.forEach((file) => formData.append("attachments[]", file));
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/posts", {
         method: "POST",
-        // On commente le headers car le Token n'est pas encore prêt
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        //   Accept: "application/json",
-        // },
         headers: { Accept: "application/json" },
-
         body: formData,
       });
 
       if (response.ok) {
         alert("Publication réussie !");
         setChamps({ titre: "", content: "", image: [], files: [] });
-      } else {
-        const errorData = await response.json();
-        console.error("Détails de l'erreur :", errorData);
-        alert(
-          "Erreur : " +
-            (errorData.message ||
-              "Vérifiez que l'utilisateur ID 1 existe en BDD"),
-        );
       }
     } catch (error) {
       alert("Erreur lors de l'envoi");
@@ -84,140 +58,126 @@ function PublierPost() {
   }
 
   return (
-    <div className="flex p-6 gap-6 bg-gray-50 min-h-screen font-sans">
-      <aside className="bg-white h-fit text-gray-800 w-80 rounded-2xl p-6 flex flex-col shadow-lg border border-gray-200">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold shadow-inner">
-            YA
-          </div>
-          <div className="text-center">
-            <h3 className="font-semibold text-lg">Yassine Amrani</h3>
-            <p className="text-blue-500 text-sm font-medium">Stagiaire</p>
-            <p className="text-gray-400 text-xs mt-1">
-              Développement Digital • DEVOWF201
-            </p>
-          </div>
-          <hr className="w-full border-gray-100 my-4" />
-        </div>
-        <button className="flex items-center gap-3 text-gray-500 hover:text-red-500 transition-colors mt-4">
-          <LogOut size={18} />
-          <span className="text-sm font-medium">Déconnexion</span>
-        </button>
-      </aside>
+    <div className="relative group w-full max-w-2xl mx-auto mb-12">
+      {/* L'ombre magique en arrière-plan (Aura) */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 to-purple-100 rounded-[2.5rem] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-      <div className="flex-1 flex justify-start items-start">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white w-full max-w-2xl rounded-2xl shadow-md p-6 flex flex-col gap-5 border border-gray-200"
-        >
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-            Nouvelle publication
+      {/* Le conteneur principal */}
+      <form
+        onSubmit={handleSubmit}
+        className="relative bg-white/80 backdrop-blur-xl border border-white p-8 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-300"
+      >
+        <div className="mb-6">
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+            Nouvelle <span className="text-blue-600">Publication</span>
           </h2>
+          <div className="h-1 w-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mt-1"></div>
+        </div>
 
-          <input
-            type="text"
-            placeholder="Titre de votre post..."
-            onChange={handleChange}
-            name="titre"
-            value={champs.titre}
-            required
-            className="w-full p-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all"
-          />
+        {/* Input Titre Style "Canvas" */}
+        <input
+          type="text"
+          placeholder="Donnez un titre captivant..."
+          onChange={handleChange}
+          name="titre"
+          value={champs.titre}
+          required
+          className="w-full bg-transparent text-xl font-semibold text-slate-800 placeholder-slate-300 outline-none mb-4"
+        />
 
-          <textarea
-            placeholder="Partagez vos idées ici..."
-            onChange={handleChange}
-            name="content"
-            value={champs.content}
-            required
-            className="w-full p-3 h-44 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none transition-all"
-          ></textarea>
+        {/* Textarea Style "Canvas" */}
+        <textarea
+          placeholder="Quoi que neuf?"
+          onChange={handleChange}
+          name="content"
+          value={champs.content}
+          required
+          className="w-full bg-transparent text-slate-600 placeholder-slate-300 text-lg h-32 resize-none outline-none leading-relaxed"
+        ></textarea>
 
-          {/* Affichage des fichiers sélectionnés */}
-          {(champs.image.length > 0 || champs.files.length > 0) && (
-            <div className="flex flex-wrap gap-2 p-3 bg-purple-50 rounded-xl">
-              {champs.image.map((img, index) => (
-                <span
-                  key={index}
-                  className="text-xs bg-white px-2 py-1 rounded-md border border-purple-200 flex items-center gap-1"
+        {/* Affichage des fichiers (Modern Chips) */}
+        {(champs.image.length > 0 || champs.files.length > 0) && (
+          <div className="flex flex-wrap gap-3 mb-6 p-2">
+            {champs.image.map((img, index) => (
+              <div key={index} className="group/item relative bg-blue-50/50 border border-blue-100 pl-2 pr-8 py-2 rounded-2xl flex items-center gap-2 animate-in zoom-in-95 duration-300">
+                <span className="text-blue-500">🖼️</span>
+                <span className="text-xs font-bold text-blue-700 max-w-[120px] truncate">{img.name}</span>
+                <button
+                  type="button"
+                  onClick={() => removeFile("image", index)}
+                  className="absolute right-2 p-1 rounded-full bg-blue-100 text-blue-600 hover:bg-red-500 hover:text-white transition-all"
                 >
-                  🖼️ {img.name.substring(0, 15)}...
-                  <button
-                    type="button"
-                    onClick={() => removeFile("image", index)}
-                    className="text-red-500 ml-1"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-              {champs.files.map((f, index) => (
-                <span
-                  key={index}
-                  className="text-xs bg-white px-2 py-1 rounded-md border border-blue-200 flex items-center gap-1"
+                  <X size={12} />
+                </button>
+              </div>
+            ))}
+            {champs.files.map((f, index) => (
+              <div key={index} className="group/item relative bg-slate-50/50 border border-slate-200 pl-2 pr-8 py-2 rounded-2xl flex items-center gap-2 animate-in zoom-in-95 duration-300">
+                <span className="text-slate-500">📁</span>
+                <span className="text-xs font-bold text-slate-700 max-w-[120px] truncate">{f.name}</span>
+                <button
+                  type="button"
+                  onClick={() => removeFile("files", index)}
+                  className="absolute right-2 p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-red-500 hover:text-white transition-all"
                 >
-                  📁 {f.name.substring(0, 15)}...
-                  <button
-                    type="button"
-                    onClick={() => removeFile("files", index)}
-                    className="text-red-500 ml-1"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
+                  <X size={12} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
 
-          <div className="flex justify-between items-center border-t pt-4">
-            <div className="flex gap-4">
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                multiple
-                className="hidden"
-                ref={imageInputRef}
-                onChange={handleFileChange}
-              />
-              <input
-                type="file"
-                name="files"
-                multiple
-                className="hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-
-              <button
-                type="button"
-                onClick={() => imageInputRef.current.click()}
-                className="flex items-center gap-2 text-gray-500 hover:text-purple-600 transition-colors text-sm font-medium"
-              >
-                <ImageIcon size={20} />
-                Images
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fileInputRef.current.click()}
-                className="flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors text-sm font-medium"
-              >
-                <Paperclip size={20} />
-                Documents
-              </button>
-            </div>
+        {/* Barre d'action basse */}
+        <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+          <div className="flex gap-2">
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              multiple
+              className="hidden"
+              ref={imageInputRef}
+              onChange={handleFileChange}
+            />
+            <input
+              type="file"
+              name="files"
+              multiple
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
 
             <button
-              type="submit"
-              className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg hover:opacity-90 transition-all active:scale-95"
+              type="button"
+              onClick={() => imageInputRef.current.click()}
+              className="p-3 bg-slate-50 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-2xl transition-all duration-300"
+              title="Ajouter des images"
             >
-              <Send size={18} />
-              Publier
+              <ImageIcon size={22} />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => fileInputRef.current.click()}
+              className="p-3 bg-slate-50 text-slate-500 hover:bg-purple-50 hover:text-purple-600 rounded-2xl transition-all duration-300"
+              title="Ajouter des fichiers"
+            >
+              <Paperclip size={22} />
             </button>
           </div>
-        </form>
-      </div>
+
+          <button
+            type="submit"
+            className="flex items-center gap-3 px-4 py-2 bg-blue-600 text-white rounded-[1.5rem] font-bold text-sm shadow-xl shadow-slate-200 hover:bg-blue-800 hover:shadow-blue-200 transition-all duration-500 active:scale-95"
+          >
+            <span>Publier</span>
+            <div className="bg-white/20 p-1.5 rounded-lg">
+              <Send size={16} className="rotate-[-10deg]" />
+            </div>
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

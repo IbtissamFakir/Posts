@@ -1,6 +1,13 @@
 <?php
 
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\Posts\PostController;
+use App\Http\Controllers\Posts\LikeController;
+use App\Http\Controllers\Posts\EnregistrementController;
+use App\Http\Controllers\Posts\SignalementController;
+use App\Http\Controllers\Posts\SuppressionCommentaireController;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +36,13 @@ Route::get('/posts/{postId}/commentaires',[CommentaireController::class,'index']
 Route::post('/posts/{postId}/commentaires',[CommentaireController::class,'store']);
 Route::get('/posts/{postId}/commentaires/{id}', [CommentaireController::class, 'show']);
 Route::put('/posts/{postId}/commentaires/{id}', [CommentaireController::class, 'update']);
+
+// Route pour supprimer un commentaires
+Route::delete('/posts/{postId}/commentaires/{commentaireId}', [SuppressionCommentaireController::class, 'destroy']);
+// Signaler un commentaire
+Route::post('/posts/{postId}/commentaires/{commentaireId}/signaler', [SignalementController::class, 'signalerCommentaire']);
+
+Route::get('/admin/commentaires-signales', [SignalementController::class, 'commentairesSignales']);
+Route::delete('/admin/commentaires/{commentaireId}/valider-suppression', [SignalementController::class, 'validerSuppression']);
+Route::post('/admin/commentaires/{commentaireId}/rejeter-signalement', [SignalementController::class, 'rejeterSignalement']);
+
