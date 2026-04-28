@@ -9,6 +9,8 @@ import HeartSolid from "@heroicons/react/24/solid/HeartIcon";
 import BookmarkSolid from "@heroicons/react/24/solid/BookmarkIcon";
 
 import { FileText, FileSpreadsheet, File, FileCode } from "lucide-react";
+import CommentForm from "./CommentForm";
+import CommentList from "./CommentList";
 function PostCard({ post }) {
   function formatDate(date) {
     const diff = Date.now() - new Date(date);
@@ -43,6 +45,7 @@ function PostCard({ post }) {
   const [count, setCount] = useState(post.likes_count ?? 0);
   const [liked, setLiked] = useState(post.liked ?? false);
   const [isSaved, setIsSaved] = useState(Boolean(post.is_saved));
+  const [showComments, setShowComments] = useState(false);
   // Liker un Post
   function handleLiker() {
     axios
@@ -175,7 +178,10 @@ function PostCard({ post }) {
           <span className="font-medium text-sm">J'aime</span>
         </button>
 
-        <button className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors text-gray-600 hover:bg-gray-100 ">
+        <button
+          onClick={() => setShowComments(!showComments)} // Alterne entre affiché et caché
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${showComments ? "text-blue-600 bg-blue-50" : "text-gray-600 hover:bg-gray-100"}`}
+        >
           <ChatBubbleLeftIcon className="w-6 h-6" />
           <span className="font-medium text-sm">Commenter</span>
         </button>
@@ -194,6 +200,17 @@ function PostCard({ post }) {
           </span>
         </button>
       </div>
+      {showComments && (
+        <div className="mt-4 animate-in fade-in duration-300">
+          <hr className="border-gray-100 mb-4" />
+          <CommentForm
+            postId={post.id}
+            refreshComments={() => window.location.reload()}
+          />
+
+          <CommentList postId={post.id} />
+        </div>
+      )}
     </div>
   );
 }
