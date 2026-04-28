@@ -22,8 +22,8 @@ class Evaluation extends Model
     {
         return $this->belongsTo(Module::class);
     }
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
 }

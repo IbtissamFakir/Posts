@@ -13,17 +13,30 @@ class Document extends Model
         'title',
         'description',
         'fichier_path',
+        'statut',
         'type_document_id',
-        'utilisateur_id',
+        'module_id',
+        'user_id',
+        'filiere_id',
     ];
+
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
+    }
 
     public function typeDocument()
     {
         return $this->belongsTo(TypeDocument::class);
     }
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class);
     }
 }

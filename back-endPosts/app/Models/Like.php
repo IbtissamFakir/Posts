@@ -5,28 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Enregistrement extends Model
+class Like extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'post_id',
-        'annonce_id',
         'user_id',
+        'post_id',
     ];
 
+    // Each like belongs to one user
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Each like belongs to one post
     public function post()
     {
         return $this->belongsTo(Post::class);
     }
-
-    public function annonce()
-    {
-        return $this->belongsTo(Annonce::class);
-    }
+        
 }

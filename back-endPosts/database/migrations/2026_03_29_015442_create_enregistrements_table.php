@@ -28,8 +28,8 @@ return new class extends Migration {
                 ->onDelete('cascade');
 
             // The user who made the enregistrement
-            $table->foreignId('utilisateur_id')
-                ->constrained('utilisateurs')
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
 
             $table->timestamps();

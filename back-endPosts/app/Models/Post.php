@@ -12,18 +12,24 @@ class Post extends Model
     protected $fillable = [
         'titre',
         'content',
-        'image',
         'date_publication',
-        'status',
-        'utilisateur_id',
+        'images',
+        'fichiers',
+        'statut',
+        'user_id',
         'validated_by',
         'rejected_by',
     ];
 
+    protected $casts = [
+        'images' => 'array',
+        'fichiers' => 'array',
+        'date_publication' => 'datetime',
+    ];
     // 🔹 Each post belongs to one user (author)
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
 
     // 🔹 A post can have many comments
@@ -35,14 +41,14 @@ class Post extends Model
     // a post must be validated by an admin before being visible to others
     public function validateur()
     {
-        return $this->belongsTo(Utilisateur::class, 'validated_by')
+        return $this->belongsTo(User::class, 'validated_by')
             ->where('role', 'admin');
     }
 
     // a post can be rejected by an admin, in which case it will have a 'rejected_by' field
     public function rejecteur()
     {
-        return $this->belongsTo(Utilisateur::class, 'rejected_by')
+        return $this->belongsTo(User::class, 'rejected_by')
             ->where('role', 'admin');
     }
 
@@ -52,4 +58,9 @@ class Post extends Model
         return $this->hasMany(Enregistrement::class);
     }
 
+    //  A post can have many like
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

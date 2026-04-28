@@ -19,10 +19,13 @@ return new class extends Migration
             $table->foreignId('commentaire_id')
                 ->constrained('commentaires')
                 ->onDelete('cascade');
-            $table->foreignId('utilisateur_id')
-                ->constrained('utilisateurs')
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
             $table->timestamps();
+
+            // Empêcher qu'un utilisateur signale plusieurs fois le même commentaire
+            $table->unique(['commentaire_id', 'user_id']);
         });
     }
 
